@@ -1,0 +1,23 @@
+# Intermediate and report generation files
+plots/
+temp_plots/
+code_screenshots/
+build_report.py
+*.docx
+~$*.docx
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.ipynb_checkpoints/
+.venv/
+env/
+venv/
+
+# Temporary files
+*.tmp
+*.log
+tasks/
+
+guides/
