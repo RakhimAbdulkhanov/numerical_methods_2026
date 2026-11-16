@@ -11,7 +11,7 @@ import numpy as np
 BASE_DIR = Path(__file__).resolve().parent
 TRAJECTORY_FILE = BASE_DIR / "trajectory.txt"
 
-X0_SYSTEM = np.array([1.2, 1.5], dtype=float)
+X0_SYSTEM = np.array([0.2, 0.2], dtype=float)
 DELTA0_SYSTEM = np.array([0.2, 0.2], dtype=float)
 X0_ROSEN = np.array([-1.2, 0.0], dtype=float)
 DELTA0_ROSEN = np.array([0.2, 0.2], dtype=float)
@@ -252,7 +252,8 @@ def make_plots(result):
         ax.plot(ex1, ey1, label="x2 = exp(x1) - 1", linewidth=1.8)
         ax.scatter(
             X0_SYSTEM[0], X0_SYSTEM[1], color="#2ca02c", s=65,
-            marker="s", zorder=5, label="X^(0) = (1.2, 1.5)"
+            marker="s", zorder=5,
+            label=f"X^(0) = ({X0_SYSTEM[0]:g}, {X0_SYSTEM[1]:g})"
         )
         ax.scatter(
             x_star[0], x_star[1], color="red", s=85, marker="*",
@@ -266,22 +267,22 @@ def make_plots(result):
     )
     axes1[0].legend(fontsize=8, loc="upper left")
     axes1[1].set(
-        xlim=(0.6, 1.45), ylim=(1.2, 2.1), aspect="equal",
+        xlim=(0.0, 1.45), ylim=(0.0, 2.1), aspect="equal",
         xlabel="x1", ylabel="x2", title="Перша чверть біля розв'язку"
     )
-    axes1[1].legend(fontsize=8, loc="lower left")
+    axes1[1].legend(fontsize=8, loc="upper left")
 
     # лінії рівня цільової функції системи та траєкторія спуску
     fig2, ax2 = plt.subplots(figsize=(8.2, 5.0), layout="constrained")
-    gx = np.linspace(0.92, 1.24, 240)
-    gy = np.linspace(1.46, 1.80, 240)
+    gx = np.linspace(0.05, 1.50, 260)
+    gy = np.linspace(0.05, 1.95, 260)
     mx, my = np.meshgrid(gx, gy)
     mz = (mx * mx + my * my - 4.0) ** 2 + (my - np.exp(mx) + 1.0) ** 2
     mz_clipped = np.clip(mz, 1e-13, None)
-    levels = np.logspace(-12, 0.2, 25)
+    levels = np.logspace(-12, 1.3, 28)
     cf = ax2.contourf(
         mx, my, mz_clipped, levels=levels,
-        norm=LogNorm(vmin=1e-12, vmax=10.0 ** 0.2),
+        norm=LogNorm(vmin=1e-12, vmax=10.0 ** 1.3),
         cmap="viridis", alpha=0.88, extend="both"
     )
     ax2.contour(mx, my, mz_clipped, levels=levels[::2], colors="white",

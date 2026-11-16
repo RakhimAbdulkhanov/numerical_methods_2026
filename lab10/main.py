@@ -476,7 +476,7 @@ def make_plots(result):
     ax8.plot(result["rk4_x"][1:], result["rk4_runge_phi"], color="#d62728", linewidth=1.3)
     ax8.axhline(0.0, color="gray", linestyle="--", linewidth=0.8)
     ax8.set(xlabel="x", ylabel="phi_n = (16/15)(y^(h/2) - y^h)",
-            title="РК4 (h = 0.01): локальна похибка за методом Рунге")
+            title="РК4 (h = 0.01): похибка за методом Рунге")
     ax8.grid(alpha=0.3)
 
     fig5, (ax9, ax10) = plt.subplots(1, 2, figsize=(10.2, 4.0), layout="constrained")

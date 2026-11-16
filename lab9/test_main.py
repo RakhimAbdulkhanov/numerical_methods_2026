@@ -136,6 +136,7 @@ class HookeJeevesTests(unittest.TestCase):
         ros_res = result["rosenbrock"]
         self.assertTrue(sys_res.converged)
         self.assertTrue(ros_res.converged)
+        self.assertGreaterEqual(sys_res.pattern_moves, 1)
         self.assertEqual(sys_res.steps, len(sys_res.trajectory) - 1)
         self.assertTrue(np.allclose(sys_res.x, sys_res.trajectory[-1]))
         self.assertTrue(np.all(np.diff(sys_res.values) < 0))

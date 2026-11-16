@@ -182,7 +182,15 @@ def seidel(a, b, x0, eps=1e-14, max_iter=5000):
     if np.any(diag == 0.0):
         raise ValueError("нульовий діагональний елемент у методі Зейделя")
     n = a.shape[0]
-    c_mat = -np.linalg.solve(np.tril(a), np.triu(a, k=1))
+    # обчислюєм C = -(A+ + D)^(-1) * A- прямою підстановкою для норми
+    lower = np.tril(a)
+    upper = np.triu(a, k=1)
+    c_mat = np.zeros((n, n), dtype=float)
+    for col in range(n):
+        rhs = -upper[:, col]
+        for row in range(n):
+            prev = np.dot(lower[row, :row], c_mat[:row, col]) if row > 0 else 0.0
+            c_mat[row, col] = (rhs[row] - prev) / diag[row]
     c_norm = matrix_norm(c_mat)
 
     def step(cur):
@@ -284,12 +292,8 @@ def make_plots(result):
 def main():
     result = experiment()
     print_results(result)
-    figs = make_plots(result)
-    if plt.get_backend().lower() != "agg":
-        plt.show()
-    else:
-        for fig in figs:
-            plt.close(fig)
+    make_plots(result)
+    plt.show()
 
 
 if __name__ == "__main__":
